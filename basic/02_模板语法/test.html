@@ -31,12 +31,34 @@
 
 <div id="app">
   <h2>1. 双大括号表达式</h2>
-
+  <p>{{content}}</p>
+  <p>{{content.toUpperCase()}}</p>
   <h2>2. 指令一: 强制数据绑定</h2>
-
+  <!-- //url是字符串,不是变量 -->
+  <a href="url">去上网</a> 
+  <!-- //使用了v-bind，url是变量，会被解析 -->
+  <a v-bind:href="url">去上网</a>
+  <!-- //v-bind的简写 -->
+  <a :href="url">去上网</a>
   <h2>3. 指令二: 绑定事件监听</h2>
-
+  <button v-on:click = "print">打印监听</button>
+  <button @click = "print">打印监听2</button>
 </div>
 
+<script src="../JS/vue.js"></script>
+<script>
+  const vm = new Vue({
+    el:'#app',
+    data:{
+      content:'Vue.js',
+      url:'http://www.baidu.com'
+    },
+    methods:{
+      print(event){
+        console.log(event.target.innerHTML)
+      }
+    }
+  })
+</script>
 </body>
 </html>

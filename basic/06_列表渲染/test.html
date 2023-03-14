@@ -17,6 +17,15 @@
 
 <div id="demo">
   <h2>测试: v-for 遍历数组</h2>
+  <ul>
+    <li v-for="(p, index) in person" :key="p.id">
+      <span>{{p.id}}</span>
+      <span>{{p.name}}</span>
+      <span>{{p.age}}</span>
+      <button @click = "deleteP(index)">删除</button>
+      <button @click = "updateP(index,{id:Date.now(),name:xxx,age:111})">更新</button>
+    </li>
+  </ul>
 
   <h2>测试: v-for 遍历对象</h2>
 
@@ -24,7 +33,35 @@
 
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
-
+const vm = new Vue({
+  el: '#demo',
+  data:{
+    person:[
+      {id:1,name:'Tom',age:18},
+      {id:2,name:'Jack',age:20},
+      {id:3,name:'Mary',age:22},
+      {id:4,name:'James',age:24},
+    ]
+  },
+  methods: {
+    deleteP(index){
+      this.person.splice(index, 1)
+    },
+    updateP(index,newP){
+      // this.person[index]= newP   // 1. 直接替换, 但是不会触发视图更新, 因为没有改变引用地址, 所以不会触发视图更新, 但是数据已经改变了, 所以不建议这样做
+      this.person.splice(index,1,newP) // 2. 通过splice替换, 会触发视图更新, 因为改变了引用地址, 所以会触发视图更新
+    }
+    //Vue的数据绑定时如何实现的?
+    //1.vue会监视data中所有层次的属性
+    //2.对象的属性通过添加set方法来实现监视
+    //3.数组的属性通过重写数组的方法来实现监视
+      //1)调用原生对应的方法对数组进行操作
+      //2)去更新视图
+      //只针对data中的数据
+      // 通俗理解就是直接改变数组元素，但是数组存储的时地址，地址没有发生改变，所以视图不会更新
+      // 通过splice方法改变数组元素，但是数组存储的是地址，地址发生了改变，所以视图会更新
+  },
+})
 </script>
 </body>
 </html>

@@ -15,10 +15,29 @@
 -->
 
 <div id="demo">
+  <p v-if = "isOk">表白成功</p>
+  <!-- <p v-else>表白失败</p>相当于写了一个布尔值为true的属性 <p v-else = "true">表白失败</p>-->
+  <p v-else>表白失败</p>
+  <p v-show = "isOk">表白成功</p>
+  <p v-show = "!isOk">表白失败</p>
+  <button @click = "toggle">
+    表白切换
+  </button>
 </div>
 
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
+  const vm = new Vue({
+    el: '#demo',
+    data: {
+      isOk: true
+    },
+    methods: {
+      toggle() {
+        this.isOk = !this.isOk
+      }
+    },
+  })
 </script>
 </body>
 </html>

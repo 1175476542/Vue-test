@@ -1,18 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>06_列表渲染_过滤与排序</title>
 </head>
+
 <body>
-<!--
+  <!--
 1. 列表过滤
 2. 列表排序
 -->
 
-<script type="text/javascript" src="../js/vue.js"></script>
-<script type="text/javascript">
+  <div id="app">
+    <input type="text" v-model="searchName">
+    <ul>
+      <li v-for="(p, index) in filterList" :key="p.id">
+        {{p.id}} - {{p.name}} - {{p.age}}
+      </li>
+    </ul>
+    <button @click = "sortType='asc'">年龄升序</button>
+    <button @click = "sortType='desc'">年龄降序</button>
+    <button @click = "sortType='normal'">原本顺序</button>
+  </div>
 
-</script>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        searchName: '',
+        sortType: 'normal',
+        list: [
+          { id: 1, name: '张00三', age: 18 },
+          { id: 2, name: '李000四', age: 20 },
+          { id: 3, name: '王五', age: 22 },
+          { id: 4, name: '赵六', age: 24 },
+          { id: 5, name: '田七', age: 26 },
+        ]
+      },
+      methods: {
+        // 1. 列表过滤
+        // 2. 列表排序
+      },
+      computed: {
+        // 1. 列表过滤
+        filterList() {
+          const { list, searchName, sortType } = this
+          const arr = list.filter(p => p.name.indexOf(searchName) !== -1)
+          // 2. 列表排序
+          if (sortType === 'normal') {
+            return arr
+          } else if (sortType === 'asc') {
+            return arr.sort((p1, p2) => p1.age - p2.age)
+          } else if (sortType === 'desc') {
+            return arr.sort((p1, p2) => p2.age - p1.age)
+          }
+        }
+
+
+      }
+    })
+  </script>
 </body>
+
 </html>

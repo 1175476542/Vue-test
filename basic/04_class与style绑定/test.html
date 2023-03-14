@@ -32,14 +32,44 @@
 
 <div id="demo">
   <h2>1. class绑定: :class='xxx'</h2>
+<!-- 动态class什么时候用字符串语法，一般在类名不确定时使用 -->
+  <p :class = "myClass">绑定样式名称</p>
+  <!-- 动态class一般在类名确定但不确定是否有该样式时使用 -->
+  <p :class = "{classA:true,classB:false}">绑定样式开关</p>
+  <p :class = "{classA:hasA,classB:hasB}">动态绑定样式开关</p>
+  <p :class = "[classA,classB]">数组方式绑定样式名</p>
 
   <h2>2. style绑定</h2>
-
+  <p :style = "{color:myColor,fontSize:mySize+'px'}">绑定样式对象</p>
+<button @click = "updateStyle">
+  更新样式
+</button>
 </div>
 
 <script type="text/javascript" src="../js/vue.js"></script>
 <script type="text/javascript">
-
+const vm = new Vue({
+  el: '#demo',
+  data() {
+    return {
+      myClass:"classA classB classC",
+      hasA:true,
+      hasB:false,
+      classA:"classA",
+      classB:"classB",
+      myColor:"#000",
+      mySize:20
+    }
+  },
+  methods: {
+    updateStyle() {
+      this.myClass = "classA classC"
+      this.hasA = !this.hasA
+      this.myColor = 'red'
+      this.mySize = 30
+    }
+  }
+})
 </script>
 </body>
 </html>

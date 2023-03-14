@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>07_事件处理</title>
 </head>
+
 <body>
-<!--
+  <!--
 1. 绑定监听:
   v-on:xxx="fun"
   @xxx="fun"
@@ -20,19 +22,65 @@
   .enter : 操作的是enter键
 -->
 
-<div id="example">
+  <div id="example">
 
-  <h2>1. 绑定监听</h2>
+    <h2>1. 绑定监听</h2>
+    <button v-on:click='test1'>点击事件1</button>
+    <button @click='test2("点击事件2")'>点击事件2</button>
+    <!-- 隐含属性对象: $event,当前发生事情的对象 -->
+    <button @click='test3("点击事件3",$event)'>点击事件3</button>
+    <h2>2. 事件修饰符</h2>
 
-  <h2>2. 事件修饰符</h2>
+    <!-- 阻止事件默认行为（prevent） -->
+    <a href="www.baidu.com" @click.prevent="test4">百度一下</a>
+    <!-- 停止事件冒泡（stop） -->
+    <div style="width:200px;height:200px;background:red" @click = 'test5'>
+      <div style="width:100px;height:100px;background:blue" @click.stop = test6></div>
+    </div>
+    <p @click.once = 'test6'>xxx</p>
+    <h2>3. 按键修饰符</h2>
+    <input type="text" v-model="msg" @keyup.13 = "test7" >
+    <input type="text" v-model="msg" @keyup.enter = "test7" >
+  </div>
 
-  <h2>3. 按键修饰符</h2>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+    const vm = new Vue({
+      el: '#example',
+      data: {
+        msg: '',
+      },
+      methods: {
+        test1(e) {
+          console.log(e.target.innerHTML)
+        },
+        test2(msg) {
+          console.log(msg)
+        },
+        test3(msg, e) {
+          console.log(e.target.innerHTML + '--------' + msg)
+        },
+        test4(e) {
+          // e.preventDefault();
 
-</div>
-
-<script type="text/javascript" src="../js/vue.js"></script>
-<script type="text/javascript">
-
-</script>
+          console.log('阻止事件默认行为')
+        },
+        test5(){
+          console.log('父元素')
+        },
+        test6(e){
+          // e.stopPropagation();
+          console.log('子元素')
+        },
+        test7(e){
+          // if (e.keyCode === 13) {
+            console.log(this.msg)
+          // }
+          
+        }
+      },
+    })
+  </script>
 </body>
+
 </html>
